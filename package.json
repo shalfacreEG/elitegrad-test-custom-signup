@@ -1,0 +1,40 @@
+{
+  "name": "elitegrad-test-custom-signup",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "build": "fsbin emptyDir build && fsbin copy public build && webpack --config webpack.build.js",
+    "clean": "fsbin emptyDir build",
+    "dev": "webpack-dev-server --config webpack.dev.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karmadata/elitegrad-test-custom-signup.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/karmadata/elitegrad-test-custom-signup/issues"
+  },
+  "homepage": "https://github.com/karmadata/elitegrad-test-custom-signup#readme",
+  "dependencies": {
+    "@auth0/auth0-spa-js": "^1.7.0",
+    "mithril": "^2.0.3",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "dotenv": "^7.0.0",
+    "fsbin": "^1.0.8",
+    "webpack": "^4.39.0",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2"
+  }
+}
