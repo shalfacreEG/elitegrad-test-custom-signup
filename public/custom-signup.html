@@ -21,128 +21,45 @@
   </style>
 </head>
 <body>
-
-  <!--[if IE 8]>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/ie8/0.2.5/ie8.js"></script>
-  <![endif]-->
-
-  <!--[if lte IE 9]>
-  <script src="https://cdn.auth0.com/js/base64.js"></script>
-  <script src="https://cdn.auth0.com/js/es5-shim.min.js"></script>
-  <![endif]-->
-
   <script src="https://cdn.auth0.com/js/lock/11.22/lock.min.js"></script>
   <script>
-    // Decode utf8 characters properly
-    var url = new URL(window.location.href);
-    // var c = url.searchParams.get("c");
-    // console.log(c);
-    var config = {
-  "icon": "https://dev-students.elitegrad.com/static/media/EGLogoWhite.9c46458a.svg",
-  "assetsUrl": "",
-  "auth0Domain": "dev-grad.auth0.com",
-  "auth0Tenant": "dev-grad",
-  "clientConfigurationBaseUrl": "https://cdn.auth0.com/",
-  "callbackOnLocationHash": false,
-  // "callbackURL": "https://dev-students.elitegrad.com",
-  "cdn": "https://cdn.auth0.com/",
-  // "clientID": "HOnextGWmPGWf7It7pg3z0EAGXBuQ7wa",
-  "dict": {
-    "signin": {
-      "title": "grad-dev"
+    function getUrlParams() {
+      let url = new URL(window.location.href);
+      let result = {};
+      for (let key of url.searchParams.keys()) {
+        result[key] = url.searchParams.get(key);
+      }
+      return result;
     }
-  },
-  "extraParams": {
-    "protocol": "oauth2",
-    // "audience": "https://accesstoken1.karmadata.com",
-    // "scope": "openid profile email",
-    // "response_type": "code",
-    // "response_mode": "query",
-    // "nonce": "aUxIN0ZnakZEdUtYLXNNeTh0U0ZTLkxxMmJEWG9rNVFnSFIteXZ4U1gwMw==",
-    // "code_challenge": "RsBIpzJrGQD07cmnIhmq8KoBKRCPLjx2CwjFqWanqIE",
-    // "code_challenge_method": "S256",
-    // "auth0Client": "eyJuYW1lIjoiYXV0aDAtc3BhLWpzIiwidmVyc2lvbiI6IjEuMTQuMCJ9",
-    "_csrf": "h1qikEPI-YjAhask2dxkYm1p298JM7jUoSKI",
-    "_intstate": "deprecated",
-    // "state": "hKFo2SB3cHo3Nlh5cmtMWk5EcDZjTXkxc056MEoxLTVSWGxRX6FupWxvZ2luo3RpZNkgU0tMSl9idTAtZ2dIRkpMeFZEZE1zT0FuVGhCRUlMalejY2lk2SAzS0c5cGZxUzB3SGhVMHBVRm8wVXg1NGhoT3B2ZVVjSg"
-  },
-  "internalOptions": {
-    "protocol": "oauth2",
-    // "audience": "https://accesstoken1.karmadata.com",
-    // "scope": "openid profile email",
-    // "response_type": "code",
-    // "response_mode": "query",
-    // "nonce": "aUxIN0ZnakZEdUtYLXNNeTh0U0ZTLkxxMmJEWG9rNVFnSFIteXZ4U1gwMw==",
-    // "code_challenge": "RsBIpzJrGQD07cmnIhmq8KoBKRCPLjx2CwjFqWanqIE",
-    // "code_challenge_method": "S256",
-    // "auth0Client": "eyJuYW1lIjoiYXV0aDAtc3BhLWpzIiwidmVyc2lvbiI6IjEuMTQuMCJ9",
-    "_csrf": "h1qikEPI-YjAhask2dxkYm1p298JM7jUoSKI",
-    "_intstate": "deprecated",
-    // "state": "hKFo2SB3cHo3Nlh5cmtMWk5EcDZjTXkxc056MEoxLTVSWGxRX6FupWxvZ2luo3RpZNkgU0tMSl9idTAtZ2dIRkpMeFZEZE1zT0FuVGhCRUlMalejY2lk2SAzS0c5cGZxUzB3SGhVMHBVRm8wVXg1NGhoT3B2ZVVjSg"
-  },
-  "widgetUrl": "https://cdn.auth0.com/w2/auth0-widget-5.1.min.js",
-  "isThirdPartyClient": false,
-  "authorizationServer": {
-    "url": "https://dev-grad.auth0.com",
-    "issuer": "https://dev-grad.auth0.com/"
-  },
-  "colors": {
-    "page_background": "#ffffff",
-    "primary": "#EE151B"
-  },
-}
-    // var config = JSON.parse(decodeURIComponent(escape(window.atob('eyJpY29uIjoiaHR0cHM6Ly9kZXYtc3R1ZGVudHMuZWxpdGVncmFkLmNvbS9zdGF0aWMvbWVkaWEvRUdMb2dvV2hpdGUuOWM0NjQ1OGEuc3ZnIiwiYXNzZXRzVXJsIjoiIiwiYXV0aDBEb21haW4iOiJkZXYtZ3JhZC5hdXRoMC5jb20iLCJhdXRoMFRlbmFudCI6ImRldi1ncmFkIiwiY2xpZW50Q29uZmlndXJhdGlvbkJhc2VVcmwiOiJodHRwczovL2Nkbi5hdXRoMC5jb20vIiwiY2FsbGJhY2tPbkxvY2F0aW9uSGFzaCI6ZmFsc2UsImNhbGxiYWNrVVJMIjoiaHR0cHM6Ly9kZXYtc3R1ZGVudHMuZWxpdGVncmFkLmNvbSIsImNkbiI6Imh0dHBzOi8vY2RuLmF1dGgwLmNvbS8iLCJjbGllbnRJRCI6IjNLRzlwZnFTMHdIaFUwcFVGbzBVeDU0aGhPcHZlVWNKIiwiZGljdCI6eyJzaWduaW4iOnsidGl0bGUiOiJncmFkLWRldiJ9fSwiZXh0cmFQYXJhbXMiOnsicHJvdG9jb2wiOiJvYXV0aDIiLCJhdWRpZW5jZSI6Imh0dHBzOi8vYWNjZXNzdG9rZW4xLmthcm1hZGF0YS5jb20iLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicmVzcG9uc2VfdHlwZSI6ImNvZGUiLCJyZXNwb25zZV9tb2RlIjoicXVlcnkiLCJub25jZSI6ImFVeElOMFpuYWtaRWRVdFlMWE5OZVRoMFUwWlRMa3h4TW1KRVdHOXJOVkZuU0ZJdGVYWjRVMWd3TXc9PSIsImNvZGVfY2hhbGxlbmdlIjoiUnNCSXB6SnJHUUQwN2NtbklobXE4S29CS1JDUExqeDJDd2pGcVdhbnFJRSIsImNvZGVfY2hhbGxlbmdlX21ldGhvZCI6IlMyNTYiLCJhdXRoMENsaWVudCI6ImV5SnVZVzFsSWpvaVlYVjBhREF0YzNCaExXcHpJaXdpZG1WeWMybHZiaUk2SWpFdU1UUXVNQ0o5IiwiX2NzcmYiOiJoMXFpa0VQSS1ZakFoYXNrMmR4a1ltMXAyOThKTTdqVW9TS0kiLCJfaW50c3RhdGUiOiJkZXByZWNhdGVkIiwic3RhdGUiOiJoS0ZvMlNCM2NIbzNObGg1Y210TVdrNUVjRFpqVFhreGMwNTZNRW94TFRWU1dHeFJYNkZ1cFd4dloybHVvM1JwWk5rZ1UwdE1TbDlpZFRBdFoyZElSa3BNZUZaRVpFMXpUMEZ1VkdoQ1JVbE1hbGVqWTJsazJTQXpTMGM1Y0daeFV6QjNTR2hWTUhCVlJtOHdWWGcxTkdob1QzQjJaVlZqU2cifSwiaW50ZXJuYWxPcHRpb25zIjp7InByb3RvY29sIjoib2F1dGgyIiwiYXVkaWVuY2UiOiJodHRwczovL2FjY2Vzc3Rva2VuMS5rYXJtYWRhdGEuY29tIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInJlc3BvbnNlX3R5cGUiOiJjb2RlIiwicmVzcG9uc2VfbW9kZSI6InF1ZXJ5Iiwibm9uY2UiOiJhVXhJTjBabmFrWkVkVXRZTFhOTmVUaDBVMFpUTGt4eE1tSkVXRzlyTlZGblNGSXRlWFo0VTFnd013PT0iLCJjb2RlX2NoYWxsZW5nZSI6IlJzQklwekpyR1FEMDdjbW5JaG1xOEtvQktSQ1BMangyQ3dqRnFXYW5xSUUiLCJjb2RlX2NoYWxsZW5nZV9tZXRob2QiOiJTMjU2IiwiYXV0aDBDbGllbnQiOiJleUp1WVcxbElqb2lZWFYwYURBdGMzQmhMV3B6SWl3aWRtVnljMmx2YmlJNklqRXVNVFF1TUNKOSIsIl9jc3JmIjoiaDFxaWtFUEktWWpBaGFzazJkeGtZbTFwMjk4Sk03alVvU0tJIiwiX2ludHN0YXRlIjoiZGVwcmVjYXRlZCIsInN0YXRlIjoiaEtGbzJTQjNjSG8zTmxoNWNtdE1XazVFY0RaalRYa3hjMDU2TUVveExUVlNXR3hSWDZGdXBXeHZaMmx1bzNScFpOa2dVMHRNU2w5aWRUQXRaMmRJUmtwTWVGWkVaRTF6VDBGdVZHaENSVWxNYWxlalkybGsyU0F6UzBjNWNHWnhVekIzU0doVk1IQlZSbTh3VlhnMU5HaG9UM0IyWlZWalNnIn0sIndpZGdldFVybCI6Imh0dHBzOi8vY2RuLmF1dGgwLmNvbS93Mi9hdXRoMC13aWRnZXQtNS4xLm1pbi5qcyIsImlzVGhpcmRQYXJ0eUNsaWVudCI6ZmFsc2UsImF1dGhvcml6YXRpb25TZXJ2ZXIiOnsidXJsIjoiaHR0cHM6Ly9kZXYtZ3JhZC5hdXRoMC5jb20iLCJpc3N1ZXIiOiJodHRwczovL2Rldi1ncmFkLmF1dGgwLmNvbS8ifSwiY29sb3JzIjp7InBhZ2VfYmFja2dyb3VuZCI6IiMwMDAwMDAiLCJwcmltYXJ5IjoiI0VFMTUxQiJ9fQ=='))));
-    // config.extraParams = config.extraParams || {};
-    config.clientID = url.searchParams.get('client_id');
-    config.extraParams.audience = url.searchParams.get('audience');
-    config.internalOptions.audience = url.searchParams.get('audience');
-    config.callbackURL = url.searchParams.get('redirect_uri');
-    config.extraParams.scope = url.searchParams.get('scope');
-    config.internalOptions.scope = url.searchParams.get('scope');
-    config.extraParams.response_type = url.searchParams.get('response_type');
-    config.internalOptions.response_type = url.searchParams.get('response_type');
-    config.extraParams.response_mode = url.searchParams.get('response_mode');
-    config.internalOptions.response_mode = url.searchParams.get('response_mode');
-    config.extraParams.state = url.searchParams.get('state');
-    config.internalOptions.state = url.searchParams.get('state');
-    config.extraParams.nonce = url.searchParams.get('nonce');
-    config.internalOptions.nonce = url.searchParams.get('nonce');
-    config.extraParams.code_challenge = url.searchParams.get('code_challenge');
-    config.internalOptions.code_challenge = url.searchParams.get('code_challenge');
-    config.extraParams.code_challenge_method = url.searchParams.get('code_challenge_method');
-    config.internalOptions.code_challenge_method = url.searchParams.get('code_challenge_method');
-    config.extraParams.auth0Client = url.searchParams.get('auth0Client');
-    config.internalOptions.auth0Client = url.searchParams.get('auth0Client');
-	  console.log(config);
-	  console.log(JSON.stringify(config, null, '  '));
-    var connection = config.connection;
-    var prompt = config.prompt;
-    var languageDictionary;
-    var language;
-
-    if (config.dict && config.dict.signin && config.dict.signin.title) {
-      languageDictionary = { title: config.dict.signin.title };
-    } else if (typeof config.dict === 'string') {
-      language = config.dict;
-    }
-    var loginHint = config.extraParams.login_hint;
-    var colors = config.colors || {};
+    let { client_id, audience, redirect_uri, scope, response_type, response_mode,
+      state, nonce, code_challenge, code_challenge_method, auth0Client,
+      display, screen_hint, login_hint } = getUrlParams();
+    let auth0Domain = 'dev-grad.auth0.com';
+    let connection = null;
+    let prompt = null;
+    let languageDictionary = { title: 'grad-dev' };
+    let colors = {
+      "page_background": "#ffffff",
+      "primary": "#EE151B"
+    };
+    let assetsUrl = '';
+    let callbackOnLocationHash = false;
+    let internalOptions = {
+      "protocol": "oauth2",
+      "_csrf": "h1qikEPI-YjAhask2dxkYm1p298JM7jUoSKI",
+      "_intstate": "deprecated",
+      audience, scope, response_type, response_mode, nonce, code_challenge,
+      code_challenge_method, auth0Client, state,
+    };
 
     // Available Lock configuration options: https://auth0.com/docs/libraries/lock/v11/configuration
-    var lock = new Auth0Lock(config.clientID, config.auth0Domain, {
+    var lock = new Auth0Lock(client_id, auth0Domain, {
       auth: {
-        redirectUrl: config.callbackURL,
-        responseType: (config.internalOptions || {}).response_type ||
-          (config.callbackOnLocationHash ? 'token' : 'code'),
-        params: config.internalOptions
+        redirectUrl: redirect_uri,
+        responseType: response_type || (callbackOnLocationHash ? 'token' : 'code'),
+        params: internalOptions
       },
-      /* additional configuration needed for custom domains
-      configurationBaseUrl: config.clientConfigurationBaseUrl,
-      overrides: {
-        __tenant: config.auth0Tenant,
-        __token_issuer: 'YOUR_CUSTOM_DOMAIN'
-      }, */
-      assetsUrl:  config.assetsUrl,
+      assetsUrl:  assetsUrl,
       allowedConnections: connection ? [connection] : null,
       rememberLastLogin: !prompt,
       // language: language,
@@ -154,7 +71,7 @@
         logo:            'https://dev-students.elitegrad.com/static/media/EGLogoWhite.9c46458a.svg',
         primaryColor:    colors.primary ? colors.primary : 'green'
       },
-      prefill: loginHint ? { email: loginHint, username: loginHint } : null,
+      prefill: login_hint ? { email: login_hint, username: login_hint } : null,
       closable: false,
       defaultADUsernameFromEmailPrefix: false,
       mustAcceptTerms: true,

@@ -10,6 +10,7 @@ export function Page3({ attrs }) {
   function view({ attrs }) {
     return m('div', [
       m('div', 'Page 3, continuing sign up'),
+      m('div', '(we might need a way to logout or start over on every page)'),
     ]);
   }
 
