@@ -29,14 +29,6 @@ async function initAuth0() {
 
 initAuth0();
 
-export function loadPassword() {
-  return localStorage.getItem('password');
-}
-
-export function savePassword(password) {
-  localStorage.setItem('password', password);
-}
-
 export function getAuth0state() {
   return auth0state;
 }
@@ -106,32 +98,4 @@ export function setLoginRedirect(route) {
 
 export function getLoginRedirect() {
   return window.sessionStorage.getItem('loginRedirectRoute');
-}
-
-export function allowEdit() {
-  return MITHRIL_ALLOW_EDIT === 'true';
-}
-
-export function getAuth0ListState() {
-  return auth0ListState;
-}
-
-export function setAuth0ListState(state) {
-  auth0ListState = state;
-}
-
-export function getGradListState() {
-  return gradListState;
-}
-
-export function setGradListState(state) {
-  gradListState = state;
-}
-
-export function getRecruiterListState() {
-  return recruiterListState;
-}
-
-export function setRecruiterListState(state) {
-  recruiterListState = state;
 }
