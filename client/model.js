@@ -66,23 +66,19 @@ export function loginWithRedirect() {
   auth0.loginWithRedirect();
 }
 
-async function ourCustomSignup(options = {}) {
-  const { overridePage, redirectMethod, ...urlOptions } = options;
-  let url = await auth0.buildAuthorizeUrl(urlOptions);
-  console.log(url);
-  if (overridePage) url = url.replace(/^https?:\/\/[\w\.-]+\/authorize/, overridePage);
-  console.log(url);
-  window.location[redirectMethod || 'assign'](url);
-}
-
-export async function customSignup() {
+export async function generateAuth0LockParams() {
   let baseUrl = window.location.protocol + '//' + window.location.host;
-  console.log(baseUrl);
+  // console.log(baseUrl);
   let route = baseUrl + '/page3';
-  console.log(route);
+  // console.log(route);
   setLoginRedirect(route);
-  ourCustomSignup({ overridePage: baseUrl + '/custom-signup.html'});
-  // auth0.loginWithRedirect({ display: 'page', screen_hint: 'signup' });
+  let urlString = await auth0.buildAuthorizeUrl({});
+  let url = new URL(urlString);
+  let result = {};
+  for (let key of url.searchParams.keys()) {
+    result[key] = url.searchParams.get(key);
+  }
+  return result;
 }
 
 export function logout() {
