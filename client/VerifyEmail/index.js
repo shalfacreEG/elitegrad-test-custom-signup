@@ -37,8 +37,8 @@ export function VerifyEmail({ attrs }) {
   function view({ attrs }) {
     let text = null;
     if (email_verification_result == null) text = 'Verification in process';
-    else if (email_verification_result === false) text = 'Verification failed';
-    else text = 'Email verified';
+    else if (email_verification_result === false) text = 'Verification failed.';
+    else text = 'Thank you. Your email has been verified. You can close this window now.';
     return m('div', [
       m('div', text),
     ]);
