@@ -11,20 +11,27 @@ export function VerifyEmail({ attrs }) {
     let postBody = {
       "encrypted_token": token,
     };
-    let res = await fetch('https://dev-grad-web-api.karmadata.com/web-api/verify-email', {
-      method: 'POST',
-      headers: {
-        // 'Authorization': 'Bearer ' + env.SENDGRID_API_KEY,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postBody),
-    });
-    if (!res.ok) {
+    try {
+      let res = await m.request({
+        method: 'POST',
+        url: 'https://dev-grad-web-api.karmadata.com/web-api/verify-email',
+        // params: {id: 1},
+        body: postBody,
+      });
+      // console.log(res);
+      if (!res.success) throw new Error('unknown response');
+      email_verification_result = res;
+    } catch (e) {
       email_verification_result = false;
-    } else {
-      email_verification_result = await res.json();
     }
+    // console.log(res);
+    // if (!res.ok) {
+    //   email_verification_result = false;
+    // } else {
+    //   email_verification_result = await res.json();
+    // }
     console.log('done');
+
   }
 
   function view({ attrs }) {
