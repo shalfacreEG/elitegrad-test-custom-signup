@@ -4,34 +4,47 @@ import * as model from '../model';
 export function VerifyEmail({ attrs }) {
   let email_verification_result = null;
 
+  async function verify(encrypted_token) {
+    let query = `mutation MyMutation($queue: String!, $content: jsonb!) {
+      queueAction(queue: $queue, content: $content) {
+        result
+        error
+        success
+      }
+    }`;
+    let variables = {
+      queue: 'verify-email',
+      content: {
+        encrypted_token,
+      },
+    };
+    let body = {
+      operationName: 'MyMutation',
+      query: query,
+      variables: variables,
+    };
+    let res = await m.request({
+      method: 'POST',
+      url: MITHRIL_GRAPHQL_URL,
+      body: body,
+    });
+    console.log(res);
+    if (res.errors) throw new Error(res.errors[0].message);
+    let resData = res.data.queueAction;
+    if (resData.error) throw new Error(resData.error);
+    return resData;
+  }  
+
   async function oninit(vnode) {
     let { token } = vnode.attrs;
-    // refreshData();
-    // console.log(token);
-    let postBody = {
-      "encrypted_token": token,
-    };
     try {
-      let res = await m.request({
-        method: 'POST',
-        url: 'https://dev-grad-web-api.karmadata.com/web-api/verify-email',
-        // params: {id: 1},
-        body: postBody,
-      });
-      // console.log(res);
-      if (!res.success) throw new Error('unknown response');
-      email_verification_result = res;
+      let verify_result = await verify(token);
+      if (!verify_result.success) throw new Error('unknown error');
+      email_verification_result = verify_result;
     } catch (e) {
       email_verification_result = false;
     }
-    // console.log(res);
-    // if (!res.ok) {
-    //   email_verification_result = false;
-    // } else {
-    //   email_verification_result = await res.json();
-    // }
     console.log('done');
-
   }
 
   function view({ attrs }) {
